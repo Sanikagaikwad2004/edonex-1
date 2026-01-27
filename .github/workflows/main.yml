@@ -1,4 +1,4 @@
-name: Deploy to VPS
+name: CD Deploy to VPS (SCP)
 
 on:
   push:
@@ -13,12 +13,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.0.3
+      - name: Copy files to VPS
+        uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          script: |
-            cd /var/www/project
-            
+          host: 82.112.238.89
+          username: root
+          key: ${{ VPS_USER }}
+          source: "."
+          target: "/var/www/html"
